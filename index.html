@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplikasi Mini Apps yang berisi Expense Tracker, Bookmark Manager, dan Quiz App.">
     <title>Praktikum 3 - JS Studi Kasus</title>
     
+    <!-- Preconnect untuk performa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +21,7 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+        .tab-active { border-bottom: 2px solid #1d4ed8; color: #1d4ed8; font-weight: 600; }
         .hidden-panel { display: none; }
     </style>
 </head>
@@ -27,19 +32,19 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-center py-4">
                 <h1 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-                    <i class="ti ti-apps text-blue-500"></i> Mini Apps
+                    <i class="ti ti-apps text-blue-500" aria-hidden="true"></i> Mini Apps
                 </h1>
                 
                 <!-- Tab Navigation -->
-                <nav class="flex gap-4 sm:gap-6 mt-4 sm:mt-0" id="tab-nav">
-                    <button data-tab="expense" class="tab-btn pb-2 text-gray-500 hover:text-blue-500 transition-colors flex items-center gap-1">
-                        <i class="ti ti-wallet"></i> Expense
+                <nav class="flex gap-4 sm:gap-6 mt-4 sm:mt-0" id="tab-nav" aria-label="Navigasi Utama">
+                    <button data-tab="expense" class="tab-btn pb-2 text-gray-600 hover:text-blue-700 transition-colors flex items-center gap-1" aria-label="Tab Expense Tracker">
+                        <i class="ti ti-wallet" aria-hidden="true"></i> Expense
                     </button>
-                    <button data-tab="bookmark" class="tab-btn pb-2 text-gray-500 hover:text-blue-500 transition-colors flex items-center gap-1">
-                        <i class="ti ti-bookmarks"></i> Bookmark
+                    <button data-tab="bookmark" class="tab-btn pb-2 text-gray-600 hover:text-blue-700 transition-colors flex items-center gap-1" aria-label="Tab Bookmark Manager">
+                        <i class="ti ti-bookmarks" aria-hidden="true"></i> Bookmark
                     </button>
-                    <button data-tab="quiz" class="tab-btn pb-2 text-gray-500 hover:text-blue-500 transition-colors flex items-center gap-1">
-                        <i class="ti ti-bulb"></i> Quiz
+                    <button data-tab="quiz" class="tab-btn pb-2 text-gray-600 hover:text-blue-700 transition-colors flex items-center gap-1" aria-label="Tab Quiz App">
+                        <i class="ti ti-bulb" aria-hidden="true"></i> Quiz
                     </button>
                 </nav>
             </div>
@@ -50,26 +55,26 @@
     <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- ================= PANEL 1: EXPENSE TRACKER ================= -->
-        <section id="panel-expense" class="panel hidden-panel">
+        <section id="panel-expense" class="panel hidden-panel" aria-label="Expense Tracker Panel">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Expense Tracker</h2>
-                <button id="btn-add-expense" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
-                    <i class="ti ti-plus"></i> Tambah Transaksi
+                <button id="btn-add-expense" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2" aria-label="Tambah Transaksi">
+                    <i class="ti ti-plus" aria-hidden="true"></i> Tambah Transaksi
                 </button>
             </div>
 
             <!-- Ringkasan Saldo -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500">
-                    <p class="text-sm text-gray-500 font-medium">Total Pemasukan</p>
+                    <p class="text-sm text-gray-600 font-medium">Total Pemasukan</p>
                     <p id="total-income" class="text-2xl font-bold text-gray-800 mt-1">Rp 0</p>
                 </div>
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-red-500">
-                    <p class="text-sm text-gray-500 font-medium">Total Pengeluaran</p>
+                    <p class="text-sm text-gray-600 font-medium">Total Pengeluaran</p>
                     <p id="total-expense" class="text-2xl font-bold text-gray-800 mt-1">Rp 0</p>
                 </div>
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-green-500">
-                    <p class="text-sm text-gray-500 font-medium">Saldo Akhir</p>
+                    <p class="text-sm text-gray-600 font-medium">Saldo Akhir</p>
                     <p id="total-balance" class="text-2xl font-bold text-gray-800 mt-1">Rp 0</p>
                 </div>
             </div>
@@ -77,14 +82,17 @@
             <!-- Filter & Sort -->
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row gap-4">
                 <div class="flex-grow">
-                    <input type="text" id="search-expense" placeholder="Cari transaksi..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    <label for="search-expense" class="sr-only">Cari transaksi</label>
+                    <input type="text" id="search-expense" placeholder="Cari transaksi..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" aria-label="Cari transaksi">
                 </div>
-                <select id="filter-expense-type" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <label for="filter-expense-type" class="sr-only">Filter tipe</label>
+                <select id="filter-expense-type" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" aria-label="Filter tipe transaksi">
                     <option value="all">Semua Tipe</option>
                     <option value="income">Pemasukan</option>
                     <option value="expense">Pengeluaran</option>
                 </select>
-                <select id="sort-expense" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <label for="sort-expense" class="sr-only">Urutkan transaksi</label>
+                <select id="sort-expense" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" aria-label="Urutkan transaksi">
                     <option value="date-desc">Terbaru</option>
                     <option value="date-asc">Terlama</option>
                     <option value="amount-desc">Nominal Tertinggi</option>
@@ -97,28 +105,30 @@
                 <ul id="expense-list" class="divide-y divide-gray-100">
                     <!-- Item akan di-render di sini via JS -->
                 </ul>
-                <div id="expense-empty" class="p-8 text-center text-gray-500 hidden">
-                    <i class="ti ti-receipt text-4xl mb-2 text-gray-300"></i>
+                <div id="expense-empty" class="p-8 text-center text-gray-600 hidden">
+                    <i class="ti ti-receipt text-4xl mb-2 text-gray-400" aria-hidden="true"></i>
                     <p>Belum ada transaksi.</p>
                 </div>
             </div>
         </section>
 
         <!-- ================= PANEL 2: BOOKMARK MANAGER ================= -->
-        <section id="panel-bookmark" class="panel hidden-panel">
+        <section id="panel-bookmark" class="panel hidden-panel" aria-label="Bookmark Manager Panel">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Bookmark Manager</h2>
-                <button id="btn-add-bookmark" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
-                    <i class="ti ti-plus"></i> Tambah Bookmark
+                <button id="btn-add-bookmark" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2" aria-label="Tambah Bookmark">
+                    <i class="ti ti-plus" aria-hidden="true"></i> Tambah Bookmark
                 </button>
             </div>
 
             <!-- Filter & Sort Bookmark -->
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row gap-4">
                 <div class="flex-grow">
-                    <input type="text" id="search-bookmark" placeholder="Cari bookmark..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    <label for="search-bookmark" class="sr-only">Cari bookmark</label>
+                    <input type="text" id="search-bookmark" placeholder="Cari bookmark..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" aria-label="Cari bookmark">
                 </div>
-                <select id="sort-bookmark" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <label for="sort-bookmark" class="sr-only">Urutkan bookmark</label>
+                <select id="sort-bookmark" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" aria-label="Urutkan bookmark">
                     <option value="date-desc">Terbaru Ditambahkan</option>
                     <option value="title-asc">Judul (A-Z)</option>
                     <option value="title-desc">Judul (Z-A)</option>
@@ -129,24 +139,24 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="bookmark-list">
                 <!-- Item bookmark akan di-render di sini via JS -->
             </div>
-            <div id="bookmark-empty" class="p-8 text-center text-gray-500 hidden bg-white rounded-xl shadow-sm border border-gray-100 mt-4">
-                <i class="ti ti-bookmarks text-4xl mb-2 text-gray-300"></i>
+            <div id="bookmark-empty" class="p-8 text-center text-gray-600 hidden bg-white rounded-xl shadow-sm border border-gray-100 mt-4">
+                <i class="ti ti-bookmarks text-4xl mb-2 text-gray-400" aria-hidden="true"></i>
                 <p>Belum ada bookmark tersimpan.</p>
             </div>
         </section>
 
         <!-- ================= PANEL 3: QUIZ APP ================= -->
-        <section id="panel-quiz" class="panel hidden-panel">
+        <section id="panel-quiz" class="panel hidden-panel" aria-label="Quiz App Panel">
             <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto text-center">
                 
                 <!-- Layar Mulai -->
                 <div id="quiz-start-screen">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">JavaScript Quiz</h2>
-                    <p class="text-gray-500 mb-6">Uji pengetahuan JavaScript Anda. Terdapat 5 soal pilihan ganda.</p>
+                    <p class="text-gray-600 mb-6">Uji pengetahuan JavaScript Anda. Terdapat 5 soal pilihan ganda.</p>
                     <div class="mb-6 p-4 bg-blue-50 rounded-lg inline-block">
                         <p class="text-sm font-medium text-blue-800">High Score: <span id="quiz-high-score" class="text-xl font-bold">0</span></p>
                     </div><br>
-                    <button id="btn-start-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                    <button id="btn-start-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors" aria-label="Mulai Kuis">
                         Mulai Kuis
                     </button>
                 </div>
@@ -154,8 +164,8 @@
                 <!-- Layar Pertanyaan -->
                 <div id="quiz-question-screen" class="hidden text-left">
                     <div class="flex justify-between items-center mb-6">
-                        <span class="text-sm font-medium text-gray-500" id="quiz-progress">Soal 1 dari 5</span>
-                        <span class="text-sm font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Score: <span id="quiz-current-score">0</span></span>
+                        <span class="text-sm font-medium text-gray-600" id="quiz-progress">Soal 1 dari 5</span>
+                        <span class="text-sm font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">Score: <span id="quiz-current-score">0</span></span>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-6" id="quiz-question-text">Pertanyaan akan muncul di sini?</h3>
                     <div class="space-y-3" id="quiz-options">
@@ -163,13 +173,13 @@
                     </div>
                     
                     <!-- Feedback (Benar/Salah) -->
-                    <div id="quiz-feedback" class="mt-6 p-4 rounded-lg hidden font-medium text-center">
+                    <div id="quiz-feedback" class="mt-6 p-4 rounded-lg hidden font-medium text-center" aria-live="polite">
                         <!-- Pesan benar/salah -->
                     </div>
                     
                     <div class="mt-6 text-right hidden" id="quiz-next-container">
-                        <button id="btn-next-question" class="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                            Selanjutnya <i class="ti ti-arrow-right"></i>
+                        <button id="btn-next-question" class="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2 rounded-lg font-medium transition-colors" aria-label="Pertanyaan Selanjutnya">
+                            Selanjutnya <i class="ti ti-arrow-right" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -177,10 +187,10 @@
                 <!-- Layar Hasil -->
                 <div id="quiz-result-screen" class="hidden">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">Kuis Selesai!</h2>
-                    <p class="text-gray-500 mb-6">Berikut adalah skor akhir Anda.</p>
+                    <p class="text-gray-600 mb-6">Berikut adalah skor akhir Anda.</p>
                     <div class="text-6xl font-bold text-blue-600 mb-2" id="quiz-final-score">100</div>
-                    <p class="text-gray-500 mb-8" id="quiz-result-message">Luar biasa!</p>
-                    <button id="btn-restart-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                    <p class="text-gray-600 mb-8" id="quiz-result-message">Luar biasa!</p>
+                    <button id="btn-restart-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors" aria-label="Ulangi Kuis">
                         Ulangi Kuis
                     </button>
                 </div>
@@ -193,45 +203,45 @@
     <!-- ================= MODALS ================= -->
     
     <!-- Modal Expense -->
-    <div id="modal-expense" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
+    <div id="modal-expense" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4" aria-modal="true" role="dialog" aria-labelledby="modal-expense-title">
         <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800" id="modal-expense-title">Tambah Transaksi</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600 close-modal-btn">
-                    <i class="ti ti-x text-xl"></i>
+                <button type="button" class="text-gray-500 hover:text-gray-700 close-modal-btn" aria-label="Tutup Modal">
+                    <i class="ti ti-x text-xl" aria-hidden="true"></i>
                 </button>
             </div>
             <form id="form-expense" class="p-6">
                 <input type="hidden" id="expense-id">
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Transaksi</label>
-                        <input type="text" id="expense-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="expense-title" class="block text-sm font-medium text-gray-700 mb-1">Judul Transaksi</label>
+                        <input type="text" id="expense-title" name="expense-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                        <input type="text" id="expense-category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="expense-category" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                        <input type="text" id="expense-category" name="expense-category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp)</label>
-                        <input type="number" id="expense-amount" required min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="expense-amount" class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp)</label>
+                        <input type="number" id="expense-amount" name="expense-amount" required min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipe</label>
-                            <select id="expense-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <label for="expense-type" class="block text-sm font-medium text-gray-700 mb-1">Tipe</label>
+                            <select id="expense-type" name="expense-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                                 <option value="income">Pemasukan</option>
                                 <option value="expense">Pengeluaran</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="expense-date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <label for="expense-date" class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+                            <input type="date" id="expense-date" name="expense-date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button type="button" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-lg close-modal-btn">Batal</button>
+                    <button type="button" class="px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded-lg close-modal-btn">Batal</button>
                     <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">Simpan</button>
                 </div>
             </form>
@@ -239,37 +249,37 @@
     </div>
 
     <!-- Modal Bookmark -->
-    <div id="modal-bookmark" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
+    <div id="modal-bookmark" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4" aria-modal="true" role="dialog" aria-labelledby="modal-bookmark-title">
         <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800" id="modal-bookmark-title">Tambah Bookmark</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600 close-modal-btn">
-                    <i class="ti ti-x text-xl"></i>
+                <button type="button" class="text-gray-500 hover:text-gray-700 close-modal-btn" aria-label="Tutup Modal">
+                    <i class="ti ti-x text-xl" aria-hidden="true"></i>
                 </button>
             </div>
             <form id="form-bookmark" class="p-6">
                 <input type="hidden" id="bookmark-id">
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-                        <input type="text" id="bookmark-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="bookmark-title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                        <input type="text" id="bookmark-title" name="bookmark-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">URL</label>
-                        <input type="url" id="bookmark-url" required placeholder="https://..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="bookmark-url" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+                        <input type="url" id="bookmark-url" name="bookmark-url" required placeholder="https://..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                         <p class="text-xs text-gray-500 mt-1">Harus diawali dengan http:// atau https://</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                        <input type="text" id="bookmark-category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label for="bookmark-category" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                        <input type="text" id="bookmark-category" name="bookmark-category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Catatan (Opsional)</label>
-                        <textarea id="bookmark-note" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                        <label for="bookmark-note" class="block text-sm font-medium text-gray-700 mb-1">Catatan (Opsional)</label>
+                        <textarea id="bookmark-note" name="bookmark-note" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end gap-3">
-                    <button type="button" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-lg close-modal-btn">Batal</button>
+                    <button type="button" class="px-4 py-2 text-gray-700 font-medium hover:bg-gray-100 rounded-lg close-modal-btn">Batal</button>
                     <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">Simpan</button>
                 </div>
             </form>
@@ -277,20 +287,20 @@
     </div>
 
     <!-- Modal Konfirmasi Hapus -->
-    <div id="modal-confirm" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
+    <div id="modal-confirm" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4" aria-modal="true" role="dialog" aria-labelledby="modal-confirm-title">
         <div class="bg-white rounded-xl w-full max-w-sm overflow-hidden shadow-2xl p-6 text-center">
             <div class="w-16 h-16 bg-red-100 rounded-full flex justify-center items-center mx-auto mb-4">
-                <i class="ti ti-alert-triangle text-2xl text-red-600"></i>
+                <i class="ti ti-alert-triangle text-2xl text-red-600" aria-hidden="true"></i>
             </div>
-            <h3 class="text-lg font-bold text-gray-800 mb-2">Konfirmasi Hapus</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-2" id="modal-confirm-title">Konfirmasi Hapus</h3>
             <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
             <div class="flex justify-center gap-3">
-                <button type="button" class="px-4 py-2 text-gray-600 font-medium bg-gray-100 hover:bg-gray-200 rounded-lg close-modal-btn w-full">Batal</button>
+                <button type="button" class="px-4 py-2 text-gray-700 font-medium bg-gray-100 hover:bg-gray-200 rounded-lg close-modal-btn w-full">Batal</button>
                 <button type="button" id="btn-confirm-delete" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg w-full">Ya, Hapus</button>
             </div>
         </div>
     </div>
 
-    <script src="assets/script.js"></script>
+    <script src="assets/script.js" defer></script>
 </body>
 </html>

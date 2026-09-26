@@ -153,8 +153,8 @@ function renderExpenses() {
                 <div class="flex items-center gap-4">
                     <p class="font-bold ${amountColor}">${amountPrefix} Rp ${ex.amount.toLocaleString('id-ID')}</p>
                     <div class="flex gap-2">
-                        <button class="text-blue-500 hover:bg-blue-50 p-2 rounded edit-expense-btn" data-id="${ex.id}"><i class="ti ti-edit"></i></button>
-                        <button class="text-red-500 hover:bg-red-50 p-2 rounded delete-expense-btn" data-id="${ex.id}"><i class="ti ti-trash"></i></button>
+                        <button class="text-blue-500 hover:bg-blue-50 p-2 rounded edit-expense-btn" data-id="${ex.id}" aria-label="Ubah transaksi ${ex.title}"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                        <button class="text-red-500 hover:bg-red-50 p-2 rounded delete-expense-btn" data-id="${ex.id}" aria-label="Hapus transaksi ${ex.title}"><i class="ti ti-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
             `;
@@ -304,8 +304,8 @@ function renderBookmarks() {
                     ${bm.note ? `<p class="text-sm text-gray-500 bg-gray-50 p-2 rounded mb-4 italic line-clamp-2">${bm.note}</p>` : ''}
                 </div>
                 <div class="flex justify-end gap-2 border-t border-gray-50 pt-3 mt-auto">
-                    <button class="text-blue-500 hover:bg-blue-50 p-2 rounded text-sm edit-bookmark-btn" data-id="${bm.id}"><i class="ti ti-edit"></i> Ubah</button>
-                    <button class="text-red-500 hover:bg-red-50 p-2 rounded text-sm delete-bookmark-btn" data-id="${bm.id}"><i class="ti ti-trash"></i> Hapus</button>
+                    <button class="text-blue-500 hover:bg-blue-50 p-2 rounded text-sm edit-bookmark-btn" data-id="${bm.id}" aria-label="Ubah bookmark ${bm.title}"><i class="ti ti-edit" aria-hidden="true"></i> Ubah</button>
+                    <button class="text-red-500 hover:bg-red-50 p-2 rounded text-sm delete-bookmark-btn" data-id="${bm.id}" aria-label="Hapus bookmark ${bm.title}"><i class="ti ti-trash" aria-hidden="true"></i> Hapus</button>
                 </div>
             `;
             bookmarkList.appendChild(div);
