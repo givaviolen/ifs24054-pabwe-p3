@@ -239,3 +239,4 @@ Fitur kuis interaktif dengan skor.
 ## 👤 Author
 
 Dibuat sebagai tugas **Praktikum 3 — JavaScript (Studi Kasus)**.
+ 
